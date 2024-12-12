@@ -1,0 +1,31 @@
+services:
+  ansible:
+    image: alpine/ansible
+    environment:
+      - "ANSIBLE_HOST_KEY_CHECKING=False"
+    networks:
+      ansible:
+    volumes:
+      - ./ssh_keys:/root/.ssh
+      - ./playbooks:/apps
+    working_dir: /apps
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+  server1:
+    build:
+      context: Dockerfiles/ubuntu/.
+    ports:
+      - "8085:80"
+    networks:
+      ansible:
+
+  server2:
+    build:
+      context: Dockerfiles/ubuntu/.
+    ports:
+      - "8086:80"
+    networks:
+      ansible:
+
+networks:
+  ansible:

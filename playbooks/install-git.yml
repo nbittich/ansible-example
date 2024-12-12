@@ -1,0 +1,9 @@
+- name: Install Git on Ubuntu/Debian
+  hosts: dockerhosts
+  become: True
+  tasks:
+    - name: Ensure Git is installed
+      apt:
+        name: git
+        state: present
+        update_cache: yes
